@@ -1,0 +1,41 @@
+defaults:
+  - solver: cem
+  - _self_
+
+seed: 42
+policy: ???
+
+world:
+  env_name: swm/PushT-v1
+  num_envs: ${eval.num_eval}
+
+dataset:
+  keys_to_cache: [action, proprio, state]
+
+plan_config:
+  horizon: 5
+  receding_horizon: 5
+  action_block: 5
+  history_len: 2
+
+eval:
+  num_eval: 50
+  num_eval_total: 500
+  batch_offset: 0
+  goal_offset_steps: 25
+  eval_budget: 50
+  img_size: 224
+  video: false
+  dataset_name: pusht_expert_train
+  callables:
+    - method: _set_state
+      args:
+        state:
+          value: state
+    - method: _set_goal_state
+      args:
+        goal_state:
+          value: goal_state
+
+output:
+  filename: results.txt

@@ -1,0 +1,7 @@
+rank: 32
+dataset:
+  name: tworoom
+  num_steps: 7
+  frameskip: 5
+  keys_to_load: [pixels, action]
+  keys_to_cache: [action]

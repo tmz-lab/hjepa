@@ -1,0 +1,7 @@
+__pycache__/
+.stable-wm/
+outputs/
+wandb/
+lightning_logs/
+*.ckpt
+*.mp4

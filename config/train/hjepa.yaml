@@ -1,0 +1,45 @@
+defaults:
+  - data: pusht
+  - _self_
+
+subdir: hjepa/${hydra:runtime.choices.data}
+seed: 3072
+train_split: 0.9
+img_size: 224
+patch_size: 14
+encoder_scale: tiny
+
+trainer:
+  max_epochs: 10
+  devices: auto
+  accelerator: gpu
+  precision: bf16
+  gradient_clip_val: 1.0
+
+loader:
+  batch_size: 128
+  num_workers: 6
+  persistent_workers: true
+  prefetch_factor: 3
+  pin_memory: true
+
+optimizer:
+  type: AdamW
+  lr: 5.0e-5
+  weight_decay: 1.0e-3
+
+wandb:
+  enabled: false
+  project: hjepa
+
+wm:
+  num_preds: 5
+  percept_dim: 192
+  projector_hidden: 2048
+  rank: ${data.rank}
+  dynamics:
+    hidden: 256
+    layers: 3
+    dt: 1.0
+    head_init_std: 1.0e-3
+    rho_init: 1.0e-2

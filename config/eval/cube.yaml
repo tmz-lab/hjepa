@@ -1,0 +1,58 @@
+defaults:
+  - solver: cem
+  - _self_
+
+seed: 42
+policy: ???
+
+solver:
+  n_steps: 10
+
+world:
+  env_name: swm/OGBCube-v0
+  num_envs: ${eval.num_eval}
+  env_type: single
+  ob_type: states
+  multiview: false
+  width: 224
+  height: 224
+  visualize_info: false
+  terminate_at_goal: true
+
+dataset:
+  keys_to_cache: [action]
+
+plan_config:
+  horizon: 5
+  receding_horizon: 5
+  action_block: 5
+  history_len: 2
+
+eval:
+  num_eval: 50
+  num_eval_total: 500
+  batch_offset: 0
+  goal_offset_steps: 25
+  eval_budget: 50
+  img_size: 224
+  video: false
+  dataset_name: ogbench/cube_single_expert
+  callables:
+    - method: set_state
+      args:
+        qpos:
+          value: qpos
+        qvel:
+          value: qvel
+    - method: set_target_pos
+      args:
+        cube_id:
+          value: 0
+          in_dataset: false
+        target_pos:
+          value: goal_privileged_block_0_pos
+        target_quat:
+          value: goal_privileged_block_0_quat
+
+output:
+  filename: results.txt
